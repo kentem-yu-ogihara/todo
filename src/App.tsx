@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { HStack, Stack, VStack } from "styled-system/jsx";
 import { Input } from "~/components/ui/input";
 import { Dialog } from "~/components/ui/dialog";
@@ -7,12 +7,14 @@ import { css } from "styled-system/css";
 import { XIcon } from "lucide-react";
 import { IconButton } from "./components/ui/icon-button";
 import TodoList from "./components/todoList";
+import { FormLabel } from "./components/ui/form-label";
 
 function App() {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState<{ id: string; text: string }[]>([]);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const id = useId()
   const isCompleted =
     todos.length > 0 &&
     todos.every((todo) => checkedIds.some((c) => c === todo.id));
@@ -27,9 +29,9 @@ function App() {
   return (
     <VStack padding={24} gap={1}>
       <HStack>
-        <label htmlFor="input-label">TODO: </label>
+        <FormLabel htmlFor={`${id}-input-label`}>TODO: </FormLabel>
         <Input
-          id="input-label"
+          id={`${id}-input-label`}
           placeholder="タスクを入力してください"
           value={input}
           onChange={(e) => setInput(e.target.value)}
